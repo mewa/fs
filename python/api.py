@@ -34,7 +34,10 @@ def main():
         end = time.perf_counter()
         result = process.stdout.decode("utf-8")
 
-        print("{:s}, {:f}".format(result, end - start))
+        diff = end - start
+        logging.info("Done in {:f}s".format(diff))
+
+        print("{:s}, {:f}".format(result, diff))
 
 if __name__ == "__main__":
     main()
