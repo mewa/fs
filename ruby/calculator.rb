@@ -3,7 +3,7 @@
 arg = ARGV[0]
 
 if arg == nil
-  STDERR.puts "You have to supply an expression"
+  STDERR.print "You have to supply an expression"
   exit
 end
 
@@ -19,20 +19,25 @@ ret = ops.inject([]) do |acc, arg|
   if isOp arg
     args = acc.last(2)
     if args.length < 2
-      STDERR.puts "Invalid number of args when trying to perform '#{arg}' on #{args}"
-      exit
+      STDERR.print "Invalid number of args when trying to perform '#{arg}' on #{args}"
+      exit 1
     end
     acc = acc.take(acc.length - 2)
-    acc << eval("#{args[0]} #{arg} #{args[1]}")
+    acc << eval("lambda { |a, b| a #{arg} b }").call(*args)
   else
-    acc << arg
+    number = Float(arg) rescue nil
+    if number.nil?
+      STDERR.print "'#{arg}' is not a number"
+      exit 1
+    end
+    acc << number
   end
   acc
 end
 
 if ret.length > 1
-  STDERR.puts "Error, not all input consumed: #{ret}"
+  STDERR.print "Error, not all input consumed: #{ret}"
   exit
 end
 
-puts ret[0]
+print ret[0]
