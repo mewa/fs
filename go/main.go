@@ -18,7 +18,8 @@ func main() {
 	numExprs, err := strconv.Atoi(nExprsStr)
 
 	if err != nil {
-		fmt.Println("Argument should be a number", err)
+		fmt.Println("Argument should be a number: ", nExprsStr)
+		os.Exit(0)
 	}
 
 	args := make([]string, numExprs + 1)
@@ -37,6 +38,7 @@ func main() {
 
 	if err != nil {
 		fmt.Println("Error", err)
+		os.Exit(0)
 	}
 
 	fmt.Print(string(out))
